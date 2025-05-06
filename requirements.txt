@@ -1,3 +1,6 @@
 flask
+flask-cors
+pymongo
 mysql-connector-python
 ollama
+openai
