@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>ChatDB Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background: #eaf3fb;
+            color: #003366;
+        }
+
+        h1 {
+            color: #00509e;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 14px;
+            border: 1px solid #a0c4ff;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        #response {
+            margin-top: 30px;
+            white-space: pre-wrap;
+            background: #ffffff;
+            border: 1px solid #a0c4ff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0, 85, 170, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            border: 1px solid #bcd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #cce5ff;
+            color: #002b5c;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ChatDB Natural Language Interface</h1>
+
+    <label for="engine">Choose Database Engine:</label>
+    <select id="engine" onchange="updateDatabaseOptions()">
+        <option value="mongodb">MongoDB</option>
+        <option value="sql">SQL</option>
+    </select>
+
+    <label for="dbName">Select Database:</label>
+    <select id="dbName"></select>
+
+    <label for="userQuery">Your Natural Language Query:</label>
+    <textarea id="userQuery" rows="4" placeholder="e.g., What is the GDP of China in 2020?"></textarea>
+
+    <button onclick="sendQuery()">Submit</button>
+
+    <div id="response">Response will appear here...</div>
+
+    <script>
+        const mongoDatabases = ["WorldData", "NobelPrize", "ChinaGDP"];
+        const sqlDatabases = ["employees", "sakila", "Chinook"];
+
+        function updateDatabaseOptions() {
+            const engine = document.getElementById("engine").value;
+            const dbSelect = document.getElementById("dbName");
+            dbSelect.innerHTML = "";
+            const options = engine === "mongodb" ? mongoDatabases : sqlDatabases;
+            options.forEach(db => {
+                const option = document.createElement("option");
+                option.value = db;
+                option.textContent = db;
+                dbSelect.appendChild(option);
+            });
+        }
+
+        updateDatabaseOptions(); // initialize on load
+
+        async function sendQuery() {
+            const engine = document.getElementById("engine").value;
+            const dbName = document.getElementById("dbName").value;
+            const userInput = document.getElementById("userQuery").value.trim();
+            const responseDiv = document.getElementById("response");
+
+            if (!dbName || !userInput) {
+                alert("Please fill in both fields.");
+                return;
+            }
+
+            responseDiv.textContent = "Loading...";
+
+            const url = `http://localhost:8080/query/${engine}`;
+            const payload = {
+                db_name: dbName,
+                user_input: userInput
+            };
+
+            try {
+                const res = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                responseDiv.innerHTML = "";
+
+
+
+
+                if (engine === "sql") {
+                    // TODO: Render SQL query results in a user-friendly format
+                    if (data.error) {
+                        responseDiv.textContent = "Error: " + data.error;
+                    } else if (data.results) {
+                        responseDiv.textContent = JSON.stringify(data.results, null, 2);
+                    } else {
+                        responseDiv.textContent = "No results returned.";
+                    }
+
+
+                } else {
+                    // MongoDB fallback (unchanged)
+                    responseDiv.textContent = JSON.stringify(data, null, 2);
+                }
+            } catch (err) {
+                responseDiv.textContent = "Error: " + err.message;
+            }
+        }
+    </script>
+</body>
+
+</html>
