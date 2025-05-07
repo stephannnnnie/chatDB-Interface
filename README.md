@@ -1,5 +1,4 @@
-# chatDB-Interface
-##  ChatDB Interface – Natural Language to SQL & MongoDB
+#  ChatDB Interface – Natural Language to SQL & MongoDB
 
 This component of the **ChatDB** project allows users to interact with both **SQL** and **NoSQL (MongoDB)** databases using natural language queries (e.g., "Show me the first 5 employees"). 
 
