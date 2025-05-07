@@ -8,7 +8,7 @@ def connect_to_db(database):
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Pinetree",
+        password="********",
         database=database
     )
     
