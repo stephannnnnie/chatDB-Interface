@@ -1,6 +1,6 @@
 #  ChatDB Interface – Natural Language to SQL & MongoDB
 
-This component of the **ChatDB** project allows users to interact with both **SQL** and **NoSQL (MongoDB)** databases using natural language queries (e.g., "Show me the first 5 employees"). 
+This component of the **ChatDB** project allows users to interact with both **SQL (MySQL)** and **NoSQL (MongoDB)** databases using natural language queries (e.g., "Show me the first 5 employees"). 
 
 It supports:
 
@@ -61,12 +61,15 @@ pip install flask mysql-connector-python flask-cors pymongo openai
 ├── requirements.txt # Python dependencies
 ├── README.md # Project documentation
 ├── Datasets
-│ ├── Mysql
+│ ├── Mysql/
 │ │ ├── Chinook_MySql.sql # Chinook dataset
 │ │ ├── employees.sql # Employees dataset
 │ │ ├── sakila-mv-schema.sql # Sakila dataset's schema
 │ │ ├── sakila-mv-data.sql # Sakila dataset's data insertion
-│ ├── MongoDB
+│ ├── MongoDB/
+│ │ ├── ChinaGDP/ # ChinaGDP dataset
+│ │ ├── NobelPrize/ # NobelPrize dataset
+│ │ ├── WorldData/ # WorldData dataset
 ```
 
 ---
