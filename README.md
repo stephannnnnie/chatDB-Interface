@@ -60,6 +60,13 @@ pip install flask mysql-connector-python flask-cors pymongo openai
 │ ├── schema_tool.py # Tools to fetch structured schema and sample documents for LLM prompt
 ├── requirements.txt # Python dependencies
 ├── README.md # Project documentation
+├── Datasets
+│ ├── Mysql
+│ │ ├── Chinook_MySql.sql # Chinook dataset
+│ │ ├── employees.sql # Employees dataset
+│ │ ├── sakila-mv-schema.sql # Sakila dataset's schema
+│ │ ├── sakila-mv-data.sql # Sakila dataset's data insertion
+│ ├── MongoDB
 ```
 
 ---
